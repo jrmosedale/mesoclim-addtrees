@@ -62,8 +62,8 @@ era5toclimarray <- function(ncfile, dtm=NA, aoi=NA, dtr_cor_fac = 1.285, toArray
   msdwlwrf<-rast(ncfile,subds = "msdwlwrf") # Mean surface downward long-wave radiation flux (W/m^2)
   fdir<-rast(ncfile,subds = "fdir") #  Total sky direct solar radiation at surface (W/m^2)
   ssrd<-rast(ncfile,subds = "ssrd") # Surface short-wave (solar) radiation downwards (W/m^2)
-  lsm<-rast(ncfile,subds = "lsm") # Land sea mask
-  geop<-rast(ncfile,subds = "z") # Geopotential
+  lsm<-rast(ncfile,subds = "lsm")[[1]] # Land sea mask
+
 
   # Create coarse-resolution dtm if dtm provided otherwise derive from geopotential
   if(class(dtm)[1]!='logical'){
@@ -71,11 +71,17 @@ era5toclimarray <- function(ncfile, dtm=NA, aoi=NA, dtr_cor_fac = 1.285, toArray
     agf<-terra::res(te)[1]/terra::res(dtm)[1]
     dtmc<-terra::aggregate(dtm,fact=agf,fun=mean,na.rm=T)
   } else{
+    geop<-rast(ncfile,subds = "z") # Geopotential
     dtmc<-geop[[1]]/9.80665
-    dtmc<-ifel(dtmc<0,0,dtmc)
+    dtmc<-terra::mask(dtmc,lsm,maskvalues=0)
   }
   # IF aoi provided project dtm to same projection and extent
-  if(class(aoi)[1]!='logical') dtmc<-terra::crop(terra::project(dtmc,crs(aoi)),aoi)
+  if(class(aoi)[1]!='logical'){ #
+    dtmc<-terra::project(dtm,aoi)
+    #dtmc_ext<-crop(extend(crop(dtmc,aoi,snap='out'),1),dtmc)
+    #dtmc<-mask(crop(dtmc,dtmc_ext),aoi)
+    #plot(dtmc)
+  }
 
   # Apply coastal correction to temperature data
   tmn<-.ehr(.hourtoday(as.array(t2m)-273.15,min))

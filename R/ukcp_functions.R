@@ -192,7 +192,8 @@ download_ukcp18<-function(
     if(nrow(fullreport_df)==0) fullreport_df<-success_df else fullreport_df<-rbind(fullreport_df,success_df)
   }
   return(fullreport_df)
-}#' @title Download 1km albedo data
+}
+#' @title Download 1km albedo data
 #' @description The function `download_globalbedo` downloads monthly GlobAlbedo tiled
 #' albedo data from Jasmin available for the years 1998-2011. Whole of the UK covered by default tiles. For further information see:
 #' \url{http://www.globalbedo.org/index.php}

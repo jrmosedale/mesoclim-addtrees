@@ -242,7 +242,7 @@ write_climdata<-function(climdata,filepath,overwrite=FALSE){
 #' @return nested list of climate variable timeseries by parcel.
 #' @export
 #' @import terra
-#' @keywords postprocess data
+#' @keywords  data
 create_parcel_list<-function(climdata,parcels,id='gid',
                              input_names=c("tmax", "tmin","swrad","lwrad","relhum","pres","prec", "windspeed"),
                              output_names=c("tmax", "tmin","swdown","lwdown","relhum","pres","prec", "windspeed"),
@@ -287,7 +287,7 @@ create_parcel_list<-function(climdata,parcels,id='gid',
 #' @return NA - writes .csv files
 #' @importFrom utils write.table
 #' @export
-#' @keywords postprocess data
+#' @keywords  data
 write_parcels<-function(parcel_list, dir_out, overwrite=c('none','append','replace')){
   overwrite<-match.arg(overwrite)
   parcel_names<-names(parcel_list)

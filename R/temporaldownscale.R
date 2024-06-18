@@ -108,8 +108,8 @@ blendtemp_hadukera5<-function(tasmin,tasmax,era5t2m) {
   # met office dtr
   dtr<-tasmax-tasmin
   # era5 dtr and min
-  era5min<-hourtodayCpp(.is(era5t2m),"min")
-  era5max<-hourtodayCpp(.is(era5t2m),"max")
+  era5min<-.hourtodayCpp(.is(era5t2m),"min")
+  era5max<-.hourtodayCpp(.is(era5t2m),"max")
   era5dtr<-era5max-era5min
   era5minh<-.ehr(era5min)
   era5dtrh<-.ehr(era5dtr)
@@ -550,7 +550,7 @@ wind_dailytohourly <- function(ws, wd, tme, adjust = TRUE) {
 #'
 #' Rodriguez-Iturbe I, Cox DR & Isham V (1988) A point process model for rainfall: Further
 #' developments. Proc. R. Soc. Lond., A 417: 283-298.
-#'
+#' @keywords temporal
 #' @examples
 #' # =========================================== #
 #' # ~~~ Generate hourly data for May 2018 ~~~ #
